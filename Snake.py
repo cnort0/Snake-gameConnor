@@ -53,7 +53,7 @@ def gameLoop():  # Creating a function for the game loop
 
     foodx = round(random.randrange(0, width - snake_block) / 10.0) * 10.0
     foody = round(random.randrange(score_display_height, height - snake_block) / 10.0) * 10.0
-
+    recent_key = 5
     while not game_over:
 
         while game_close:
@@ -69,23 +69,27 @@ def gameLoop():  # Creating a function for the game loop
                         game_close = False
                     if event.key == pygame.K_c:
                         gameLoop()
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT and recent_key != 2:
                     x1_change = -snake_block
                     y1_change = 0
-                elif event.key == pygame.K_RIGHT:
+                    recent_key = 1
+                elif event.key == pygame.K_RIGHT and recent_key != 1:
                     x1_change = snake_block
                     y1_change = 0
-                elif event.key == pygame.K_UP:
+                    recent_key = 2
+                elif event.key == pygame.K_UP and recent_key != 4:
                     y1_change = -snake_block
                     x1_change = 0
-                elif event.key == pygame.K_DOWN:
+                    recent_key = 3
+                elif event.key == pygame.K_DOWN and recent_key != 3:
                     y1_change = snake_block
                     x1_change = 0
+                    recent_key = 4
 
         if x1 >= width or x1 < 0 or y1 >= height or y1 < score_display_height:
             game_close = True
